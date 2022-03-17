@@ -1,8 +1,16 @@
 const initialState = {
-    tasks:[]
+    tasks: []
 }
 
 
-export const reducer = (state=initialState, action)=>{
-    return state
+export const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case "ADD_TASK":
+            return { ...state, tasks: [...state.tasks, action.payload] };
+        case "COMPLETE_TASK":
+            return { tasks: state.tasks.filter((task) => task !== action.payload) }
+
+        default:
+            return state
+    }
 }

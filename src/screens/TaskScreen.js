@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
     StyleSheet,
     Text,
@@ -7,27 +7,36 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Task from '../components/Task';
+import { addTask, completeTask } from '../store/actions';
 
 
 
 export const TaskScreen = () => {
-
-
+    
+    const dispatch = useDispatch()
     const [task, setTask] = useState();
-    const [taskItems, setTaskItems] = useState([])
+    const tasks = useSelector(state => state.tasks)
+    // const [taskItems, setTaskItems] = useState([])
 
-    const handleAddTask = () => {
-        setTaskItems([...taskItems, task])
+    // const handleAddTask = () => {
+    //     setTaskItems([...taskItems, task])
+    //
+    // }
 
-    }
+    // const completeTask = index => {
+    //     let itemsCopy = [...taskItems]
+    //     itemsCopy.splice(index, 1)
+    //     setTaskItems(itemsCopy);
+    // }
+    const handleAddTask = () => dispatch(addTask(task),  console.log(task))
 
-    const completTask = index => {
-        let itemsCopy = [...taskItems]
-        itemsCopy.splice(index, 1)
-        setTaskItems(itemsCopy);
-    }
+
+
+    const handleCompleteTask = () => {dispatch(completeTask(task)), console.log(task)}
+
+
 
     return (
         <View style={styles.container}>
@@ -37,11 +46,11 @@ export const TaskScreen = () => {
 
                 <View style={styles.items}>
                     {
-                        taskItems.map((item, index) => {
+                        tasks.map((item, index) => {
                             return (
 
-                                <TouchableOpacity onPress={() => completTask(index)} >
-                                    <Task key={index} text={item} />
+                                <TouchableOpacity onPress={() => handleCompleteTask()} >
+                                    <Task  text={item} />
                                 </TouchableOpacity>
                             )
                         })
