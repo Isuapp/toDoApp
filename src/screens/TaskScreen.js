@@ -12,29 +12,27 @@ import Task from '../components/Task';
 import { addTask, completeTask } from '../store/actions';
 
 
-
 export const TaskScreen = () => {
-    
+
     const dispatch = useDispatch()
-    const [task, setTask] = useState();
+    const [taskName, setTaskName] = useState();
     const tasks = useSelector(state => state.tasks)
-    // const [taskItems, setTaskItems] = useState([])
-
-    // const handleAddTask = () => {
-    //     setTaskItems([...taskItems, task])
-    //
-    // }
-
-    // const completeTask = index => {
-    //     let itemsCopy = [...taskItems]
-    //     itemsCopy.splice(index, 1)
-    //     setTaskItems(itemsCopy);
-    // }
-    const handleAddTask = () => dispatch(addTask(task),  console.log(task))
+    const state = useSelector(state => state)
+    const handleAddTask = () => {
+        const taskToDo = {}
+        taskToDo.push({
+            taskName: taskName,
+            taskId: `id-${taskName}`
+        })
+        dispatch(addTask(taskToDo))
+    }
 
 
 
-    const handleCompleteTask = () => {dispatch(completeTask(task)), console.log(task)}
+    const handleCompleteTask = () => {
+        dispatch(completeTask(taskName))
+        console.log('COMPLETED_TASK', taskName)
+    }
 
 
 
@@ -50,7 +48,7 @@ export const TaskScreen = () => {
                             return (
 
                                 <TouchableOpacity onPress={() => handleCompleteTask()} >
-                                    <Task  text={item} />
+                                    <Task text={item} key={index} />
                                 </TouchableOpacity>
                             )
                         })
@@ -67,8 +65,8 @@ export const TaskScreen = () => {
                 <TextInput
                     placeholder='write a task'
                     style={styles.input}
-                    onChangeText={text => setTask(text)}
-                    value={task}
+                    onChangeText={text => setTaskName(text)}
+                    value={taskName}
                 />
 
                 <TouchableOpacity onPress={() => handleAddTask()}>
@@ -98,24 +96,26 @@ const styles = StyleSheet.create({
     },
     writeTaskWraper: {
         position: 'absolute',
+        marginHorizontal: '5%',
         bottom: 60,
-        width: '100%',
+        width: '90%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignContent: 'center'
+        alignContent: 'center',
     },
     input: {
-        paddingVertical: 15,
-        paddingHorizontal: 15,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
         backgroundColor: '#fff',
         borderRadius: 60,
         borderColor: '#C0C0C0',
         borderWidth: 1,
-        width: 250,
+        width: '75%',
+        marginRight: '5%',
     },
     addWraper: {
-        width: 60,
-        height: 60,
+        width: 50,
+        height: 50,
         backgroundColor: '#fff',
         borderRadius: 60,
         justifyContent: 'center',

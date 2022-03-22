@@ -8,7 +8,10 @@ export const reducer = (state = initialState, action) => {
         case "ADD_TASK":
             return { ...state, tasks: [...state.tasks, action.payload] };
         case "COMPLETE_TASK":
-            return { tasks: state.tasks.filter((task) => task !== action.payload) }
+            // return { tasks: state.tasks.splice((action.payload, 1)) }
+            return {
+                tasks: state.tasks.filter((task) => task !== action.payload)
+            }
 
         default:
             return state
